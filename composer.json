@@ -19,7 +19,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Umtlv\\Otp\\Providers\\OtpServiceProvider"
+        "Axel\\Otp\\Providers\\OtpServiceProvider"
       ]
     }
   }
