@@ -2,9 +2,9 @@
 
 namespace Axel\Otp\Providers;
 
+use Axel\Otp\Console\InstallCommand;
 use Axel\Otp\Console\MigrationsCommand;
 use Illuminate\Support\ServiceProvider;
-use Axel\Otp\Console\InstallCommand;
 
 class OtpServiceProvider extends ServiceProvider
 {
@@ -15,12 +15,8 @@ class OtpServiceProvider extends ServiceProvider
             MigrationsCommand::class
         ]);
 
-        $this->publishes([
-            __DIR__ . '/../../config/otp.php' => config_path('otp.php'),
-        ], 'otp-config');
+        $this->publishes([__DIR__ . '/../../config/otp.php' => config_path('otp.php')], 'otp-config');
 
-        $this->publishes([
-            __DIR__ . '/../../database/migrations' => database_path('migrations'),
-        ], 'otp-migrations');
+        $this->publishes([__DIR__ . '/../../database/migrations' => database_path('migrations')], 'otp-migrations');
     }
 }

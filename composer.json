@@ -13,6 +13,7 @@
       "email": "nurislan.umetaliev@axelkg.com"
     }
   ],
+  "license": "MIT",
   "require": {
     "php": ">=7.3",
     "laravel/framework": "^8.37|^9.0"
