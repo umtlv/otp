@@ -28,7 +28,7 @@ class MailOtp implements OtpMethod
      */
     public function data(array $data): MailOtp
     {
-        $type = array_key_exists('type', $data) ? $data['type'] : 'text';
+        $type = array_key_exists('type', $data) ? $data['type'] : 'html';
 
         if (!array_key_exists('body', $data)) {
             throw new InvalidMethodParametersException('Mail\'s body parameter does not exist');
@@ -42,8 +42,8 @@ class MailOtp implements OtpMethod
 
         if ($type === 'html') {
             $this->Mail->html($data['body']);
-        } elseif ($type === 'text') {
-            $this->Mail->text($data['body']);
+        } elseif ($type === 'view') {
+            $this->Mail->view($data['body']);
         }
 
         return $this;
