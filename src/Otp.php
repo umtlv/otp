@@ -24,7 +24,7 @@ class Otp
      */
     public function method(string $method): Otp
     {
-        if (array_key_exists($method, $this->Methods)) {
+        if (!array_key_exists($method, $this->Methods)) {
             throw new InvalidNotificationMethod("Notification method $method is not found");
         }
 

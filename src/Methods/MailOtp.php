@@ -26,15 +26,17 @@ class MailOtp implements OtpMethod
      */
     public function data(array $data)
     {
-        if (array_key_exists('type', $data)) {
-            throw new InvalidMethodParametersException('Mail\'s type parameter does not exist');
+        if (!array_key_exists('type', $data)) {
+            $type = 'text';
+        } else {
+            $type = $data['type'];
         }
 
-        if (array_key_exists('body', $data)) {
+        if (!array_key_exists('body', $data)) {
             throw new InvalidMethodParametersException('Mail\'s body parameter does not exist');
         }
 
-        if (array_key_exists('subject', $data)) {
+        if (!array_key_exists('subject', $data)) {
             throw new InvalidMethodParametersException('Mail\'s subject parameter does not exist');
         }
 
