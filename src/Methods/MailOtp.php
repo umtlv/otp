@@ -16,21 +16,19 @@ class MailOtp implements OtpMethod
         $this->Mail = new Mailable();
     }
 
-    public function to(string $to)
+    public function to(string $to): MailOtp
     {
         $this->Mail->to($to);
+
+        return $this;
     }
 
     /**
      * @throws InvalidMethodParametersException
      */
-    public function data(array $data)
+    public function data(array $data): MailOtp
     {
-        if (!array_key_exists('type', $data)) {
-            $type = 'text';
-        } else {
-            $type = $data['type'];
-        }
+        $type = array_key_exists('type', $data) ? $data['type'] : 'text';
 
         if (!array_key_exists('body', $data)) {
             throw new InvalidMethodParametersException('Mail\'s body parameter does not exist');
@@ -42,11 +40,13 @@ class MailOtp implements OtpMethod
 
         $this->Mail->subject($data['subject']);
 
-        if ($data['type'] === 'html') {
+        if ($type === 'html') {
             $this->Mail->html($data['body']);
-        } elseif ($data['type'] === 'text') {
+        } elseif ($type === 'text') {
             $this->Mail->text($data['body']);
         }
+
+        return $this;
     }
 
     public function send()
