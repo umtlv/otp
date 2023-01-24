@@ -11,7 +11,7 @@ return new class extends Migration {
      *
      * @var Builder
      */
-    protected Builder $schema;
+    protected $schema;
 
     /**
      * Create a new migration instance.
@@ -49,7 +49,7 @@ return new class extends Migration {
             $table->text('verify_token');
             $table->string('verify_code');
             $table->timestamp('expires_at');
-            $table->json('data')->default('[]');
+            $table->json('data')->nullable();
             $table->integer('attempts')->default(0);
             $table->boolean('verified')->default(false);
 

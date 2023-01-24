@@ -5,12 +5,11 @@ namespace Axel\Otp\Methods;
 use Axel\Otp\Exceptions\InvalidMethodParametersException;
 use Axel\Otp\Interfaces\OtpMethod;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\SentMessage;
 use Illuminate\Support\Facades\Mail;
 
 class MailOtp implements OtpMethod
 {
-    private Mailable $Mail;
+    private $Mail;
 
     public function __construct()
     {

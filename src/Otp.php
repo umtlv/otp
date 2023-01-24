@@ -9,10 +9,10 @@ use Axel\Otp\Exceptions\InvalidRecipientException;
 
 class Otp
 {
-    private string|null $Method;
-    private string|null $To;
-    private array $Data = [];
-    private array $Methods;
+    private $Method;
+    private $To;
+    private $Data = [];
+    private $Methods;
 
     public function __construct()
     {
@@ -22,7 +22,7 @@ class Otp
     /**
      * @throws InvalidNotificationMethod
      */
-    public function method(string $method): static
+    public function method(string $method): Otp
     {
         if (array_key_exists($method, $this->Methods)) {
             throw new InvalidNotificationMethod("Notification method $method is not found");
@@ -36,7 +36,7 @@ class Otp
      * @throws InvalidMethodParametersException
      * @throws InvalidRecipientException
      */
-    public function to(string|null $to): static
+    public function to($to): Otp
     {
         if (is_null($this->Method)) {
             throw new InvalidMethodParametersException("Notification method does not found");
@@ -54,7 +54,7 @@ class Otp
      * @throws InvalidNotificationMethod
      * @throws InvalidDataException
      */
-    public function data(array $data): static
+    public function data(array $data): Otp
     {
         if (is_null($this->Method)) {
             throw new InvalidNotificationMethod("Notification method does not set");
