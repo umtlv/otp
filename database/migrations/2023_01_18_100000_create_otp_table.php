@@ -45,7 +45,8 @@ return new class extends Migration {
 
             $table->string('key');
             $table->string('notification_method');
-            $table->string('notification_value');
+            $table->string('notification_to');
+            $table->string('ip_address');
             $table->text('verify_token');
             $table->string('verify_code');
             $table->timestamp('expires_at');

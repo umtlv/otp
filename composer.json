@@ -3,6 +3,9 @@
   "description": "OTP",
   "type": "package",
   "autoload": {
+    "files": [
+      "app/helpers.php"
+    ],
     "psr-4": {
       "Axel\\Otp\\": "src/"
     }
