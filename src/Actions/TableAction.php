@@ -2,7 +2,7 @@
 
 namespace Axel\Otp\Actions;
 
-use Axel\Otp\Enum\Update;
+use Axel\Otp\Enum\OtpUpdate;
 use Axel\Otp\Exceptions\OtpServiceException;
 use Axel\Otp\Interfaces\OtpAction;
 use Axel\Otp\Models\OtpBlacklist;
@@ -85,7 +85,7 @@ class TableAction extends Action implements OtpAction
         }
 
         foreach ($updates as $updateKey => $update) {
-            if ($update === Update::INCREMENT) {
+            if ($update === OtpUpdate::INCREMENT) {
                 $otp->{$updateKey} = $otp->{$updateKey} + 1;
                 continue;
             }

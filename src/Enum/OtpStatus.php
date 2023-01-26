@@ -2,7 +2,7 @@
 
 namespace Axel\Otp\Enum;
 
-class Status
+class OtpStatus
 {
     const BLOCKED = 'blocked';
     const EXPIRED = 'expired';

@@ -2,8 +2,8 @@
 
 namespace Axel\Otp\Actions;
 
-use Axel\Otp\Enum\Status;
-use Axel\Otp\Enum\Update;
+use Axel\Otp\Enum\OtpStatus;
+use Axel\Otp\Enum\OtpUpdate;
 use Axel\Otp\Exceptions\OtpServiceException;
 use Illuminate\Support\Carbon;
 
@@ -17,8 +17,8 @@ abstract class Action
         $data = $this->get($key);
         $this->changeIP($key);
 
-        if (empty($data)) return Status::EXPIRED;
-        if ($this->isBlocked($data['notification_to'])) return Status::BLOCKED;
+        if (empty($data)) return OtpStatus::EXPIRED;
+        if ($this->isBlocked($data['notification_to'])) return OtpStatus::BLOCKED;
 
         if ($data['verify_code'] != $code) {
             if (($data['attempts'] + 1) == $this->getAttempts()) {
@@ -28,11 +28,11 @@ abstract class Action
                 $this->addAttempt($key);
             }
 
-            return Status::WRONG_CODE;
+            return OtpStatus::WRONG_CODE;
         }
 
         $this->verify($key);
-        return Status::SUCCESS;
+        return OtpStatus::SUCCESS;
     }
 
     /*
@@ -128,7 +128,7 @@ abstract class Action
     public function addAttempt(string $key)
     {
         $this->updateData($key, [
-            'attempts' => Update::INCREMENT
+            'attempts' => OtpUpdate::INCREMENT
         ]);
     }
 

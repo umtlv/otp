@@ -2,7 +2,7 @@
 
 namespace Axel\Otp\Actions;
 
-use Axel\Otp\Enum\Update;
+use Axel\Otp\Enum\OtpUpdate;
 use Axel\Otp\Exceptions\OtpServiceException;
 use Axel\Otp\Interfaces\OtpAction;
 use Illuminate\Support\Carbon;
@@ -67,7 +67,7 @@ class CacheAction extends Action implements OtpAction
         }
 
         foreach ($updates as $updateKey => $update) {
-            if ($update === Update::INCREMENT) {
+            if ($update === OtpUpdate::INCREMENT) {
                 $data[$updateKey] = $data[$updateKey] + 1;
                 continue;
             }

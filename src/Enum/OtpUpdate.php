@@ -2,7 +2,7 @@
 
 namespace Axel\Otp\Enum;
 
-class Update
+class OtpUpdate
 {
     const INCREMENT = "increment";
 }
