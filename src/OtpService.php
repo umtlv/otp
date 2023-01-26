@@ -5,6 +5,7 @@ namespace Axel\Otp;
 use Axel\Otp\Actions\CacheAction;
 use Axel\Otp\Actions\TableAction;
 use Axel\Otp\Exceptions\OtpServiceException;
+use Illuminate\Support\Facades\Cache;
 
 class OtpService
 {
@@ -49,6 +50,11 @@ class OtpService
     public static function check(string $token, string $code): string
     {
         return self::action()->check($token, $code);
+    }
+
+    public static function delete(string $token)
+    {
+        self::action()->delete($token);
     }
 
     private static function action()

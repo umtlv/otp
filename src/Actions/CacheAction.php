@@ -21,6 +21,11 @@ class CacheAction extends Action implements OtpAction
         return Cache::get($key);
     }
 
+    public function delete(string $key)
+    {
+        Cache::delete($key);
+    }
+
     /**
      * @throws OtpServiceException
      */

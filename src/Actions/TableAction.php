@@ -49,6 +49,12 @@ class TableAction extends Action implements OtpAction
         OtpBlacklist::query()->create($data);
     }
 
+    public function delete(string $key)
+    {
+        $otp = $this->getOtp($key);
+        $otp->delete();
+    }
+
     public function isBlocked(string $to): bool
     {
         $search = OtpBlacklist::query()->where('notification_to', $to)->first();

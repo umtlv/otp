@@ -11,4 +11,6 @@ interface OtpAction
     public function isBlocked(string $to);
 
     public function block(string $to);
+
+    public function delete(string $key);
 }
