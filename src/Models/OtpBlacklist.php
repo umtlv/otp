@@ -7,4 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class OtpBlacklist extends Model
 {
     protected $table = 'otp_blacklist';
+    protected $casts = [
+        'expires_at' => 'datetime'
+    ];
 }

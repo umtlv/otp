@@ -24,7 +24,7 @@ class OtpService
      */
     public static function create(string $key, string $method, string $to, array $data = []): array
     {
-        $expires = self::tokenExpires();
+        $expires = self::$action->getTokenLifetime();
 
         $data = [
             'key'                 => $key,
@@ -54,18 +54,5 @@ class OtpService
     public static function check(string $token, string $code): string
     {
         return self::$action->check($token, $code);
-    }
-
-    /**
-     * @throws OtpServiceException
-     */
-    private static function tokenExpires(): string
-    {
-        $tokenLifetime = config('otp.token_lifetime');
-        if (is_null($tokenLifetime)) {
-            throw new OtpServiceException('Token lifetime does not set');
-        }
-
-        return now()->addMinutes($tokenLifetime);
     }
 }

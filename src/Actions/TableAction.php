@@ -34,10 +34,9 @@ class TableAction extends Action implements OtpAction
      */
     public function block(string $to)
     {
-        $expires = $this->getLockLifetime();
         $data = [
             'to'         => $to,
-            'expires_at' => $expires->toDateTimeString()
+            'expires_at' => $this->getLockLifetime()
         ];
 
         if ($this->ipChecking()) {
