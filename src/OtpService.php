@@ -37,6 +37,12 @@ class OtpService
         return self::action()->get($token);
     }
 
+    public static function getData(string $token)
+    {
+        $otp = self::get($token);
+        return $otp ? $otp['data'] : null;
+    }
+
     /**
      * @throws OtpServiceException
      */
