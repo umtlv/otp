@@ -22,7 +22,7 @@ class OtpService
             'ip_address'          => user_ip(),
             'verify_token'        => create_token(),
             'verify_code'         => create_otp(),
-            'expires_at'          => $expires,
+            'expires_at'          => $expires->toDateTimeString(),
             'data'                => $data,
             'attempts'            => 0,
             'verified'            => false
