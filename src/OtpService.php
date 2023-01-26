@@ -5,7 +5,6 @@ namespace Axel\Otp;
 use Axel\Otp\Actions\CacheAction;
 use Axel\Otp\Actions\TableAction;
 use Axel\Otp\Exceptions\OtpServiceException;
-use Illuminate\Support\Facades\Cache;
 
 class OtpService
 {
