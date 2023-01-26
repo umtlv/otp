@@ -4,27 +4,16 @@ namespace Axel\Otp;
 
 use Axel\Otp\Actions\CacheAction;
 use Axel\Otp\Actions\TableAction;
-use Axel\Otp\Enum\Status;
 use Axel\Otp\Exceptions\OtpServiceException;
 
 class OtpService
 {
-    private static $Action;
-
-    public function __construct()
-    {
-        $storage = config('otp.storage') ?: 'cache';
-        self::$Action = $storage === 'cache'
-            ? new CacheAction()
-            : new TableAction();
-    }
-
     /**
      * @throws OtpServiceException
      */
     public static function create(string $key, string $method, string $to, array $data = []): array
     {
-        $expires = self::$Action->getTokenLifetime();
+        $expires = self::action()->getTokenLifetime();
 
         $data = [
             'key'                 => $key,
@@ -39,13 +28,13 @@ class OtpService
             'verified'            => false
         ];
 
-        self::$Action->save($data['verify_token'], $data);
+        self::action()->save($data['verify_token'], $data);
         return $data;
     }
 
     public static function get(string $token)
     {
-        return self::$Action->get($token);
+        return self::action()->get($token);
     }
 
     /**
@@ -53,6 +42,14 @@ class OtpService
      */
     public static function check(string $token, string $code): string
     {
-        return self::$Action->check($token, $code);
+        return self::action()->check($token, $code);
+    }
+
+    private static function action()
+    {
+        $storage = config('otp.storage') ?: 'cache';
+        return $storage === 'cache'
+            ? new CacheAction()
+            : new TableAction();
     }
 }
