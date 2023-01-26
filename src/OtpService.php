@@ -9,12 +9,12 @@ use Axel\Otp\Exceptions\OtpServiceException;
 
 class OtpService
 {
-    private static $action;
+    private static $Action;
 
     public function __construct()
     {
         $storage = config('otp.storage') ?: 'cache';
-        self::$action = $storage === 'cache'
+        self::$Action = $storage === 'cache'
             ? new CacheAction()
             : new TableAction();
     }
@@ -24,7 +24,7 @@ class OtpService
      */
     public static function create(string $key, string $method, string $to, array $data = []): array
     {
-        $expires = self::$action->getTokenLifetime();
+        $expires = self::$Action->getTokenLifetime();
 
         $data = [
             'key'                 => $key,
@@ -39,13 +39,13 @@ class OtpService
             'verified'            => false
         ];
 
-        self::$action->save($data['verify_token'], $data);
+        self::$Action->save($data['verify_token'], $data);
         return $data;
     }
 
     public static function get(string $token)
     {
-        return self::$action->get($token);
+        return self::$Action->get($token);
     }
 
     /**
@@ -53,6 +53,6 @@ class OtpService
      */
     public static function check(string $token, string $code): string
     {
-        return self::$action->check($token, $code);
+        return self::$Action->check($token, $code);
     }
 }
