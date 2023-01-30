@@ -22,7 +22,7 @@ php artisan migrate
 ### Creating
 
 ```php
-$otp = OtpService::create($Key, $Method, $To, $Data);
+$otp = \Axel\Otp\OtpService::create($Key, $Method, $To, $Data);
 ```
 
 <pre>
@@ -47,22 +47,31 @@ expires_at - expires time
 
 ## Getting data
 ```php
-$otp = OtpService::get($VerifyToken);
+$otp = \Axel\Otp\OtpService::get($VerifyToken);
 ```
 or 
 ```php
-$otp = OtpService::getData($VerifyToken);
+$otp = \Axel\Otp\OtpService::getData($VerifyToken);
 ```
 It will return whole data or data you sent to save as well as when you're creating OTP.
 
 ## Checking
 ```php
-$otp = OtpService::check($VerifyToken, $Code);
+$otp = \Axel\Otp\OtpService::check($VerifyToken, $Code);
 ```
 It will return some of this: blocked, expired, wrong_code, success.
 You can use ``Axel\Otp\Enum\OtpStatus`` to constant response.
 
 ## Deleting
 ```php
-OtpService::delete($VerifyToken);
+\Axel\Otp\OtpService::delete($VerifyToken);
+```
+
+## Custom notification
+```php
+$otp = new \Axel\Otp\Otp();
+$otp->method($Method)
+    ->to($To)
+    ->data($Data)
+    ->send();
 ```
