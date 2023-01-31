@@ -19,6 +19,7 @@ abstract class Action
 
         if (empty($data)) return OtpStatus::EXPIRED;
         if ($this->isBlocked($data['notification_to'])) return OtpStatus::BLOCKED;
+        if ($data['verified']) return OtpStatus::VERIFIED;
 
         if ($data['verify_code'] != $code) {
             if (($data['attempts'] + 1) == $this->getAttempts()) {

@@ -8,4 +8,5 @@ class OtpStatus
     const EXPIRED = 'expired';
     const WRONG_CODE = 'wrong_code';
     const SUCCESS = 'success';
+    const VERIFIED = 'verified';
 }

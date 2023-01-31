@@ -59,7 +59,7 @@ It will return whole data or data you sent to save as well as when you're creati
 ```php
 $otp = \Axel\Otp\OtpService::check($VerifyToken, $Code);
 ```
-It will return some of this: blocked, expired, wrong_code, success.
+It will return some of this: blocked, expired, wrong_code, success or verified.
 You can use ``Axel\Otp\Enum\OtpStatus`` to constant response.
 
 ## Deleting
