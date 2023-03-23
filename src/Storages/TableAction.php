@@ -1,6 +1,6 @@
 <?php
 
-namespace Axel\Otp\Actions;
+namespace Axel\Otp\Storages;
 
 use Axel\Otp\Enum\OtpUpdate;
 use Axel\Otp\Exceptions\OtpServiceException;

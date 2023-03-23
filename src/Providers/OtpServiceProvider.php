@@ -12,13 +12,12 @@ class OtpServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                InstallCommand::class,
-                MigrationsCommand::class
+                InstallCommand::class
             ]);
 
             $this->publishes([__DIR__ . '/../../config/otp.php' => config_path('otp.php')], 'otp-config');
 
-            $this->publishes([__DIR__ . '/../../database/migrations' => database_path('migrations')], 'otp-migrations');
+            $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
         }
     }
 }

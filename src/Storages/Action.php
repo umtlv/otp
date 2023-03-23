@@ -1,6 +1,6 @@
 <?php
 
-namespace Axel\Otp\Actions;
+namespace Axel\Otp\Storages;
 
 use Axel\Otp\Enum\OtpStatus;
 use Axel\Otp\Enum\OtpUpdate;
@@ -36,9 +36,8 @@ abstract class Action
         return OtpStatus::SUCCESS;
     }
 
-    /*
-     * Condition functions
-     */
+
+    /* Condition functions */
 
     public function ipChecking(): bool
     {
@@ -49,9 +48,8 @@ abstract class Action
         }
     }
 
-    /*
-     * Functions for getting data
-     */
+
+    /* Functions for getting data */
 
     /**
      * @throws OtpServiceException
@@ -107,9 +105,8 @@ abstract class Action
         return $data;
     }
 
-    /*
-     * Action functions
-     */
+
+    /* Action functions */
 
     public function verify(string $key)
     {
@@ -140,9 +137,8 @@ abstract class Action
         ]);
     }
 
-    /*
-     * Abstract classes
-     */
+
+    /* Abstract classes */
 
     abstract public function get(string $key);
 

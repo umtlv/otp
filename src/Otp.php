@@ -2,87 +2,65 @@
 
 namespace Axel\Otp;
 
-use Axel\Otp\Exceptions\InvalidDataException;
-use Axel\Otp\Exceptions\InvalidMethodParametersException;
-use Axel\Otp\Exceptions\InvalidNotificationMethod;
-use Axel\Otp\Exceptions\InvalidRecipientException;
+use Axel\Otp\Storages\CacheAction;
+use Axel\Otp\Storages\TableAction;
+use Axel\Otp\Exceptions\OtpServiceException;
 
 class Otp
 {
-    private $Method;
-    private $To;
-    private $Data = [];
-    private $Methods;
-
-    public function __construct()
+    /**
+     * @throws OtpServiceException
+     */
+    public static function create(string $key, string $method, string $to, array $data = []): array
     {
-        $this->Methods = config('otp.notification_methods');
+        $expires = self::action()->getTokenLifetime();
+
+        $data = [
+            'key'                 => $key,
+            'notification_method' => $method,
+            'notification_to'     => $to,
+            'ip_address'          => user_ip(),
+            'verify_token'        => create_token(),
+            'verify_code'         => create_otp(),
+            'expires_at'          => $expires->toDateTimeString(),
+            'data'                => $data,
+            'attempts'            => 0,
+            'verified'            => false
+        ];
+
+        self::action()->save($data['verify_token'], $data);
+        return $data;
+    }
+
+    public static function get(string $token)
+    {
+        return self::action()->get($token);
+    }
+
+    public static function getData(string $token)
+    {
+        $otp = self::get($token);
+        return $otp ? $otp['data'] : null;
     }
 
     /**
-     * @throws InvalidNotificationMethod
+     * @throws OtpServiceException
      */
-    public function method(string $method): Otp
+    public static function check(string $token, string $code): string
     {
-        if (!array_key_exists($method, $this->Methods)) {
-            throw new InvalidNotificationMethod("Notification method $method is not found");
-        }
-
-        $this->Method = $method;
-        return $this;
+        return self::action()->check($token, $code);
     }
 
-    /**
-     * @throws InvalidMethodParametersException
-     * @throws InvalidRecipientException
-     */
-    public function to($to): Otp
+    public static function delete(string $token)
     {
-        if (is_null($this->Method)) {
-            throw new InvalidMethodParametersException("Notification method does not found");
-        }
-
-        if (is_null($to)) {
-            throw new InvalidRecipientException('Recipient is not found');
-        }
-
-        $this->To = $to;
-        return $this;
+        self::action()->delete($token);
     }
 
-    /**
-     * @throws InvalidNotificationMethod
-     * @throws InvalidDataException
-     */
-    public function data(array $data): Otp
+    private static function action()
     {
-        if (is_null($this->Method)) {
-            throw new InvalidNotificationMethod("Notification method does not set");
-        }
-
-        if (!array_keys($data)) {
-            throw new InvalidDataException('Notification data is empty');
-        }
-
-        $this->Data = $data;
-        return $this;
-    }
-
-    /**
-     * @throws InvalidMethodParametersException
-     * @throws InvalidNotificationMethod
-     */
-    public function send(): void
-    {
-        if (is_null($this->Method)) {
-            throw new InvalidNotificationMethod("Notification method does not set");
-        }
-
-        if (is_null($this->To) || !array_keys($this->Data)) {
-            throw new InvalidMethodParametersException('Some parameters does not set');
-        }
-
-        $app = $this->Methods[$this->Method];
-        app($app)->to($this->To)->data($this->Data)->send();
+        $storage = config('otp.storage') ?: 'cache';
+        return $storage === 'cache'
+            ? new CacheAction()
+            : new TableAction();
     }
 }

@@ -56,6 +56,16 @@ return new class extends Migration {
 
             $table->timestamps();
         });
+
+        $this->schema->create('otp_blacklist', function (Blueprint $table) {
+            $table->id();
+
+            $table->string('notification_to');
+            $table->string('ip_address')->nullable();
+            $table->timestamp('expires_at');
+
+            $table->timestamps();
+        });
     }
 
     /**
@@ -66,5 +76,6 @@ return new class extends Migration {
     public function down(): void
     {
         $this->schema->dropIfExists('otp');
+        $this->schema->dropIfExists('otp_blacklist');
     }
 };
